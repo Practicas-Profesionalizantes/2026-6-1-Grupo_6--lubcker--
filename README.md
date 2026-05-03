@@ -1,1 +1,1 @@
-# 2026-6-1-Grupo_6--creatorAppGame--
+# 2026-6-1-Grupo_6--Lubcker--
