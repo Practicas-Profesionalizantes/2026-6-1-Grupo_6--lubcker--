@@ -1,3 +1,6 @@
 target/
 *.log
 secrets.properties
+
+# Configuracion local (contraseña de la base y clave de sesiones): cada persona usa la suya
+local.properties
