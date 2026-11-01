@@ -1,0 +1,292 @@
+/* Los modales reutilizan las clases admin-modal-* de AdminProductos.css (se cargan en toda la app) */
+
+.usuarios-contenedor {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #334155;
+}
+
+.usuarios-tarjeta {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.usuarios-titulo {
+  margin: 0 0 4px;
+  color: var(--lubcker-azul);
+}
+
+.usuarios-subtitulo {
+  margin: 0 0 16px;
+  color: #64748b;
+}
+
+.usuarios-barra {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.usuarios-busqueda {
+  flex: 1 1 260px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.usuarios-filtro {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  font-size: 14px;
+}
+
+.usuarios-contador {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.usuarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.usuarios-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.usuarios-item-inactivo {
+  background: #f8fafc;
+}
+
+.usuarios-item-inactivo .usuarios-item-principal {
+  opacity: 0.6;
+}
+
+.usuarios-item-principal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.usuarios-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.usuarios-avatar-inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a202c;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.usuarios-item-datos {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.usuarios-item-nombre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-weight: 700;
+}
+
+.usuarios-item-email,
+.usuarios-item-negocio {
+  font-size: 14px;
+  color: #64748b;
+  overflow-wrap: anywhere;
+}
+
+.usuarios-item-compras {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 13px;
+  color: #475569;
+}
+
+.usuarios-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.usuarios-badge-admin {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.usuarios-badge-inactivo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.usuarios-item-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.usuarios-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.usuarios-btn {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #1a202c;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.usuarios-btn:hover {
+  background: #2d3748;
+}
+
+.usuarios-btn-secundario {
+  background: transparent;
+  color: #334155;
+  border: 1px solid #cbd5e0;
+}
+
+.usuarios-btn-secundario:hover {
+  background: #f1f5f9;
+}
+
+.usuarios-btn-peligro {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.usuarios-btn-peligro:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.usuarios-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #2563eb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.usuarios-vacio {
+  text-align: center;
+  padding: 24px;
+  color: #888;
+}
+
+.usuarios-modal {
+  max-width: 560px;
+}
+
+.usuarios-detalle-seccion {
+  margin-bottom: 18px;
+}
+
+.usuarios-detalle-seccion h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+
+.usuarios-detalle-seccion dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.usuarios-detalle-seccion dt {
+  font-weight: 600;
+  color: #475569;
+}
+
+.usuarios-detalle-seccion dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.usuarios-detalle-seccion ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.usuarios-nota {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.usuarios-form-clave {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.usuarios-requisitos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.usuarios-requisitos li::before {
+  content: '○ ';
+}
+
+.usuarios-requisitos li.ok {
+  color: #16a34a;
+}
+
+.usuarios-requisitos li.ok::before {
+  content: '✓ ';
+}
+
+@media (max-width: 600px) {
+  .usuarios-item-compras {
+    align-items: flex-start;
+  }
+}

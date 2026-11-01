@@ -1,0 +1,289 @@
+/* Contenedor General */
+.historial-contenedor {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: #f4f5f7;
+    min-height: 100vh;
+    padding: 20px;
+    color: #334155;
+    box-sizing: border-box;
+  }
+  
+  /* Tarjeta Blanca Principal */
+  .historial-tarjeta-principal {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .historial-titulo {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #1e293b;
+    margin-top: 0;
+  }
+  
+  .historial-subtitulo {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 24px;
+    margin-top: 0;
+  }
+  
+  /* Barra de herramientas (Buscador y pestañas) */
+  .historial-barra-herramientas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 16px;
+  }
+  
+  .historial-grupo-pestanas {
+    display: flex;
+    gap: 6px;
+  }
+  
+  /* Botones de las Pestañas */
+  .historial-boton-tab {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+    color: #64748b;
+    transition: all 0.2s ease;
+  }
+  
+  .historial-boton-tab:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+  }
+  
+  .historial-boton-tab.activa {
+    background-color: #ff5722;
+    color: #ffffff;
+  }
+  
+  /* Input Buscador */
+  .historial-input-filtro {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    width: 280px;
+    outline: none;
+    background-color: #f8fafc;
+    color: #334155;
+  }
+  
+  .historial-input-filtro:focus {
+    border-color: #ff5722;
+    background-color: #ffffff;
+  }
+  
+  /* Encabezado Estilo Tabla Estricto */
+  .historial-encabezado-tabla {
+    display: grid;
+    grid-template-columns: 0.8fr 2fr 1.2fr 1fr 1fr;
+    gap: 12px;
+    background-color: #f8fafc;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #475569;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px 6px 0 0;
+  }
+  
+  /* Estructura de las Filas del Historial */
+  .historial-listado {
+    margin-top: 12px;
+  }
+  
+  .historial-tarjeta-fila {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .historial-info-fila-superior {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8fafc;
+    padding: 10px 18px;
+    font-size: 12px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 500;
+  }
+  
+  .historial-cuerpo-fila-contenido {
+    display: grid;
+    grid-template-columns: 0.8fr 2fr 1.2fr 1fr 1fr;
+    gap: 12px;
+    padding: 18px;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  /* Columnas internas */
+  .historial-col-evidencia {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .historial-col-evidencia img {
+    width: 54px;
+    height: 54px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #cbd5e1;
+  }
+  
+  .historial-col-detalle {
+    text-align: left;
+    padding-left: 10px;
+  }
+  
+  .historial-maquina {
+    font-weight: 600;
+    color: #1e293b;
+    display: block;
+  }
+  
+  .historial-tarea {
+    font-size: 13px;
+    color: #64748b;
+  }
+  
+  .historial-col-encargado {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  /* Badges de Estados */
+  .historial-badge-estado {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+  }
+  
+  .historial-badge-estado.completado {
+    background-color: #dcfce7;
+    color: #15803d;
+  }
+  
+  .historial-badge-estado.revisado {
+    background-color: #fef9c3;
+    color: #a16207;
+  }
+  
+  .historial-badge-estado.pendiente {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  /* Botones y Acciones de la Derecha */
+  .historial-col-accion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .historial-link-ficha {
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .historial-boton-accion-naranja {
+    background-color: #ff5722;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+    width: 100%;
+    max-width: 130px;
+    transition: background-color 0.2s;
+  }
+  
+  .historial-boton-accion-naranja:hover {
+    background-color: #e64a19;
+  }
+  
+  /* Estilos de la Vista Vacía (Cuando no hay items cargados) */
+  .historial-vista-vacia {
+    text-align: center;
+    padding: 50px 20px;
+    color: #94a3b8;
+  }
+  
+  .historial-icono-vacio {
+    font-size: 32px;
+    margin: 0 0 10px 0;
+  }
+  
+  .historial-texto-vacio-principal {
+    font-weight: 600;
+    margin: 0;
+    font-size: 15px;
+    color: #475569;
+  }
+  
+  .historial-texto-vacio-secundario {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+    margin-bottom: 0;
+  }
+.historial-producto {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 2px 0;
+}
+
+.historial-link-resena {
+  font-size: 12px;
+  color: #b45309;
+  white-space: nowrap;
+}
+
+/* Fecha de entrega que fijó el dueño */
+.historial-entrega {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #eff6ff;
+  font-size: 12px;
+  color: #1e3a8a;
+}
+
+.historial-entrega em {
+  color: #475569;
+}

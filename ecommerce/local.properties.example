@@ -1,0 +1,9 @@
+# Copiar este archivo como "local.properties" (en esta misma carpeta) y completar los valores.
+# "local.properties" NO se sube a GitHub; este archivo de ejemplo SI.
+
+# Contraseña del usuario root de TU MySQL local
+spring.datasource.password=COMPLETAR
+
+# Clave para firmar las sesiones (minimo 32 caracteres, cualquier texto largo sirve).
+# Opcional en desarrollo: si la dejas vacia, las sesiones se pierden al reiniciar el backend.
+app.jwt.secret=COMPLETAR_CON_UN_TEXTO_LARGO_DE_AL_MENOS_32_CARACTERES

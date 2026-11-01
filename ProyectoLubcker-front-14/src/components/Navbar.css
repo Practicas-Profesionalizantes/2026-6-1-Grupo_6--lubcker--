@@ -1,0 +1,391 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #63d3f2; /* celeste */
+  padding: 15px;
+  border-bottom: 2px solid #4ab9d8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+/* Alineación de los lados */
+.navbar-left, .navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Tres líneas del menú hamburguesa */
+.hamburger {
+  cursor: pointer;
+}
+.line {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: black;
+  margin: 4px 0;
+}
+
+/* Logo */
+.logo-lubcker {
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+}
+
+/* Buscador del centro */
+.navbar-center {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+/* Sugerencias que aparecen debajo del buscador mientras se escribe */
+.sugerencias-busqueda {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  z-index: 1200;
+}
+
+.sugerencia-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.sugerencia-item:hover {
+  background: #f1f5f9;
+}
+
+.sugerencia-item img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.sugerencia-nombre {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sugerencia-precio {
+  color: #111111;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.sugerencia-vacia {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #64748b;
+}
+.search-bar {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedor e iconos */
+.icon-box {
+  position: relative;
+  display: inline-block;
+}
+.nav-icon-carrito {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.nav-icon-login {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* Avatar del usuario con sesión iniciada */
+.nav-avatar,
+.nav-avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.nav-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a202c;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  user-select: none;
+}
+.nav-avatar-img {
+  object-fit: cover;
+}
+
+/* Número chiquito arriba del carrito */
+.numero-carrito {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: black;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Ventana flotante con animación Fade-In */
+.ventanita-flotante {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  width: 220px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  /* SOLUCIÓN: Subimos z-index para superar al navbar base */
+  z-index: 150;
+  
+  /* Estado inicial oculto */
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  /* Cerrada = fuera de juego: así sus botones invisibles no tapan los clics de otros menús */
+  visibility: hidden;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Activa animación de la ventanita */
+.ventanita-flotante.abierto {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  
+  /* SOLUCIÓN: Forzamos la detección del mouse al abrirse */
+  pointer-events: auto !important;
+}
+
+/* Títulos y textos */
+.ventanita-flotante h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #1a202c;
+  font-family: sans-serif;
+}
+.ventanita-flotante p.carrito-vacio {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #718096;
+}
+
+/* Botones de ventanitas */
+.ventanita-flotante button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  /* SOLUCIÓN: Aseguramos el comportamiento interactivo nativo del botón */
+  position: relative;
+  z-index: 160;
+  pointer-events: auto !important;
+}
+.ventanita-flotante button.btn-primario {
+  background: #1a202c;
+  color: #ffffff;
+  border: none;
+  margin-bottom: 8px;
+}
+.ventanita-flotante button.btn-primario:hover {
+  background: #2d3748;
+}
+.ventanita-flotante button.btn-secundario {
+  background: transparent;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+.ventanita-flotante button.btn-secundario:hover {
+  background: #f7fafc;
+  color: #1a202c;
+  border-color: #a0aec0;
+}
+
+/* Cabecera del menú de usuario */
+.usuario-menu-cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  font-family: sans-serif;
+}
+.usuario-menu-nombre {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a202c;
+}
+.usuario-menu-email {
+  font-size: 12px;
+  color: #718096;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ventanita-flotante button.btn-cerrar-sesion {
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+.ventanita-flotante button.btn-cerrar-sesion:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+/* Menú lateral con animación de desplazamiento */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: #ffffff;
+  padding: 24px;
+  z-index: 200;
+  box-sizing: border-box;
+  /* Estado inicial oculto a la izquierda (sin sombra ni foco mientras está cerrado) */
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.3s ease-in-out, visibility 0.3s;
+}
+
+/* Activa animación del menú lateral */
+.menu-lateral.abierto {
+  transform: translateX(0);
+  visibility: visible;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón cerrar del menú lateral */
+.btn-cerrar {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #718096;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.btn-cerrar:hover {
+  color: #1a202c;
+}
+
+/* Lista y opciones del menú lateral */
+.menu-lateral ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 48px;
+}
+.menu-lateral li {
+  padding: 14px 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2d3748;
+  border-bottom: 1px solid #edf2f7;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.menu-lateral li:hover {
+  background: #f7fafc;
+  color: #1a202c;
+  padding-left: 14px;
+}
+/* Submenú de categorías del menú lateral */
+.menu-lateral ul.menu-lateral-subcategorias {
+  margin-top: 0;
+  padding-left: 12px;
+}
+
+.menu-lateral ul.menu-lateral-subcategorias li {
+  font-size: 15px;
+  font-weight: 400;
+  padding: 10px 8px;
+  color: #4a5568;
+}
+
+/* Celular: navbar más compacto para que entren buscador, usuario y carrito */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 14px 10px 10px;
+    gap: 8px;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    gap: 10px;
+  }
+
+  .ventanita-flotante {
+    max-width: calc(100vw - 20px);
+  }
+}
+
+/* Título de sección del menú lateral (Administración) */
+.menu-lateral li.menu-lateral-titulo {
+  margin-top: 16px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  border-bottom: none;
+  cursor: default;
+}
+
+.menu-lateral li.menu-lateral-titulo:hover {
+  background: none;
+  padding-left: 8px;
+  color: #94a3b8;
+}

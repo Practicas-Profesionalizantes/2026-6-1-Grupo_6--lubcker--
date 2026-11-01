@@ -1,0 +1,623 @@
+/* Contenedor general */
+.admin-productos-contenedor {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #334155;
+}
+
+/* Tarjeta blanca principal */
+.admin-productos-tarjeta-principal {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado: título + botón agregar */
+.admin-productos-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-productos-titulo {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #1e293b;
+}
+
+.admin-productos-subtitulo {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Barra de herramientas: búsqueda + contador */
+.admin-productos-barra-herramientas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 16px;
+}
+
+.admin-productos-input-busqueda {
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 280px;
+  outline: none;
+  background-color: #f8fafc;
+  color: #334155;
+  box-sizing: border-box;
+}
+
+.admin-productos-input-busqueda:focus {
+  border-color: #0066cc;
+  background-color: #ffffff;
+}
+
+.admin-productos-contador {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Estado vacío */
+.admin-productos-vacio {
+  text-align: center;
+  padding: 50px 20px;
+  color: #94a3b8;
+}
+
+.admin-productos-vacio p {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+/* Cuadrícula de tarjetas de producto */
+.admin-productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.admin-producto-tarjeta {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-producto-tarjeta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-producto-imagen-contenedor {
+  height: 150px;
+  width: 100%;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.admin-producto-imagen {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Badge de categoría (mismos tonos que los estados del Historial) */
+.admin-producto-categoria-badge {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.admin-producto-categoria-badge.categoria-limpieza {
+  background-color: #e2f1fb;
+  color: #007bff;
+}
+
+.admin-producto-categoria-badge.categoria-mantenimiento {
+  background-color: #fbeee2;
+  color: #fd7e14;
+}
+
+.admin-producto-categoria-badge.categoria-seguridad {
+  background-color: #e2fbe8;
+  color: #28a745;
+}
+
+.admin-producto-nombre {
+  font-size: 16px;
+  margin: 0;
+  color: #1e293b;
+  flex-grow: 1;
+}
+
+.admin-producto-precio {
+  color: #28a745;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.admin-producto-acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn-admin-editar,
+.btn-admin-eliminar,
+.btn-admin-agregar,
+.btn-admin-guardar,
+.btn-admin-cancelar {
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-editar {
+  flex: 1;
+  background: transparent;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+  padding: 9px 0;
+}
+
+.btn-admin-editar:hover {
+  background-color: #f7fafc;
+  color: #1a202c;
+  border-color: #a0aec0;
+}
+
+.btn-admin-eliminar {
+  flex: 1;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 9px 0;
+}
+
+.btn-admin-eliminar:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.btn-admin-agregar {
+  background-color: #0066cc;
+  color: #ffffff;
+  padding: 11px 20px;
+  white-space: nowrap;
+}
+
+.btn-admin-agregar:hover {
+  background-color: #0052a3;
+}
+
+/* Modal de alta / edición */
+/* z-index por encima del header (1000): si no, la barra tapa la parte de arriba del modal */
+.admin-modal-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.admin-modal-contenido {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 0 24px;
+  width: 100%;
+  max-width: 600px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* El título queda fijo arriba mientras se hace scroll */
+.admin-modal-titulo {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 14px;
+  padding: 18px 0 12px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.admin-modal-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-form-fila {
+  display: flex;
+  gap: 14px;
+}
+
+.admin-form-fila .admin-form-grupo {
+  flex: 1;
+}
+
+.admin-form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-form-grupo label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444444;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.admin-form-input {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #111111;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.admin-form-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.admin-form-preview {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-form-preview img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Los botones quedan fijos abajo: siempre se ve "Guardar" aunque el formulario sea largo */
+.admin-modal-acciones {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 12px 0 18px;
+  border-top: 1px solid #edf2f7;
+}
+
+.btn-admin-cancelar {
+  background: transparent;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+  padding: 11px 18px;
+}
+
+.btn-admin-cancelar:hover {
+  background-color: #f7fafc;
+  border-color: #a0aec0;
+}
+
+.btn-admin-guardar {
+  background-color: #0066cc;
+  color: #ffffff;
+  padding: 11px 20px;
+}
+
+.btn-admin-guardar:hover {
+  background-color: #0052a3;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .admin-form-fila {
+    flex-direction: column;
+  }
+
+  .admin-productos-barra-herramientas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-productos-input-busqueda {
+    width: 100%;
+  }
+}
+
+/* ---- Stock, estado y categorías ---- */
+.admin-encabezado-botones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-admin-secundario {
+  background: transparent;
+  color: #334155;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 11px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-admin-secundario:hover {
+  background: #f1f5f9;
+}
+
+.admin-productos-filtro {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 14px;
+}
+
+.admin-producto-etiquetas {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-badge-inactivo {
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-producto-inactivo .admin-producto-imagen,
+.admin-producto-inactivo .admin-producto-nombre,
+.admin-producto-inactivo .admin-producto-precio {
+  opacity: 0.55;
+}
+
+.admin-producto-stock {
+  font-size: 13px;
+  color: #475569;
+}
+
+.admin-producto-stock.poco-stock {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.admin-producto-stock.sin-stock {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.admin-producto-acciones {
+  flex-wrap: wrap;
+}
+
+.btn-admin-activar {
+  flex: 1;
+  background: transparent;
+  color: #0f766e;
+  border: 1px solid #99f6e4;
+  border-radius: 6px;
+  padding: 9px 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-admin-activar:hover {
+  background: #f0fdfa;
+}
+
+.admin-form-check {
+  justify-content: flex-end;
+}
+
+.admin-form-check label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: pointer;
+}
+
+.admin-form-ficha {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px 4px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-form-ficha legend {
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+textarea.admin-form-input {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.admin-categorias-lista {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.admin-categorias-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.admin-categorias-vacio {
+  color: #94a3b8;
+}
+
+.admin-categoria-acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-categoria-acciones button {
+  padding: 6px 12px;
+}
+
+.admin-categoria-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.admin-categoria-form .admin-form-input {
+  flex: 1 1 180px;
+}
+
+.admin-categoria-form button {
+  padding: 8px 14px;
+}
+
+.admin-categoria-nueva {
+  margin-bottom: 8px;
+}
+
+/* Medidas de venta (kg, litro...) */
+.admin-producto-medidas {
+  font-size: 13px;
+  color: #475569;
+}
+
+.admin-form-ayuda {
+  display: block;
+  margin: -6px 0 12px 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.admin-form-medidas-preview {
+  margin: 0 0 14px 0;
+  padding: 10px 14px;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  background: #f0fdf4;
+  font-size: 13px;
+  color: #166534;
+}
+
+.admin-form-medidas-preview ul {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+}
+
+/* Costo de fabricación y ganancia (solo admin) */
+.admin-producto-costos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  text-decoration: none;
+  color: inherit;
+  font-size: 13px;
+}
+
+.admin-producto-costos small {
+  color: #64748b;
+}
+
+.admin-producto-costos div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-producto-costos span {
+  color: #475569;
+}
+
+.admin-producto-costos .costo-ganancia strong {
+  color: #15803d;
+}
+
+.admin-producto-costos .costo-perdida strong {
+  color: #b91c1c;
+}
+
+.admin-producto-costos-vacio {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #0369a1;
+  text-decoration: underline;
+}

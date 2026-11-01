@@ -1,0 +1,110 @@
+/* Contenedor principal con fondo blanco sutil y sombra suave */
+.carrusel-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  background-color: white; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave original */
+  border-radius: 8px; /* Bordes redondeados de la página */
+}
+
+/* Contenedor de las imágenes en línea */
+.carrusel-slides {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s ease-in-out; /* Transición original */
+}
+
+.carrusel-slide {
+  min-width: 100%;
+  /* Proporción 3:1 (banners de 1800 × 600 px): se ven completos y sin franjas.
+     En celular se garantiza una altura mínima para que no quede muy finito. */
+  aspect-ratio: 3 / 1;
+  min-height: 150px;
+  background-color: #f4f4f4; /* Un gris más limpio y sutil por si la foto falla */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Asegura que la imagen ocupe bien el espacio de manera proporcional */
+.carrusel-image {
+  height: 100%; 
+  width: 100%;  
+  object-fit: cover; /* Con 1800 × 600 no recorta; con otra proporción recorta los bordes */
+  display: block;
+}
+
+/* Superposición de texto sobre la foto, semi-transparente y integrada */
+.carrusel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); /* Degradado suave en lugar de bloque negro duro */
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  backdrop-filter: blur(2px); /* Integra suavemente el fondo con el texto */
+}
+
+/* Texto del nombre del producto */
+.carrusel-name {
+  margin: 0;
+  font-size: 18px; /* Un toque más legible */
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Botones de flecha redondos y simétricos */
+.carrusel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro sutil para que no se pierda en fotos blancas */
+  border: none;
+  color: white; 
+  font-size: 22px;
+  cursor: pointer;
+  width: 44px; /* Ancho fijo para hacerlas perfectamente redondas */
+  height: 44px; /* Alto fijo */
+  border-radius: 50%; /* Botón circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover sutil para los botones alineado al catálogo */
+.carrusel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.6); /* Se oscurece suavemente al pasar el mouse */
+  scale: 1.05;
+}
+
+/* Posicionamiento de los botones prev y next con mejor aire */
+.carrusel-prev {
+  left: 15px;
+}
+
+.carrusel-next {
+  right: 15px;
+}
+
+.carrusel-slide a {
+  display: block;
+  height: 100%;
+}
+
+.carrusel-overlay {
+  pointer-events: none; /* deja pasar el clic al enlace del producto */
+}
+
+/* El enlace del banner ocupa todo el slide */
+.carrusel-enlace {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

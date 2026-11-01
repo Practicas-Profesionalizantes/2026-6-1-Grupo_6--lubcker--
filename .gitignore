@@ -1,0 +1,9 @@
+# Configuracion de cada editor/PC
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+*.log

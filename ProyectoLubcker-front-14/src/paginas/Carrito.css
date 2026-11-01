@@ -1,0 +1,300 @@
+/* ==========================================
+   Contenedor Principal (Fijo sin scroll externo)
+   ========================================== */
+.carrito-pagina-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%; /* Ocupa el 100% del main-content disponible */
+  width: 100%;
+  background-color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+  overflow: hidden; /* Bloqueo absoluto de scroll en esta pantalla */
+}
+
+.carrito-tarjeta-principal {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; 
+  height: 100%; /* Se estira perfectamente entre navbar y footer */
+}
+
+.carrito-titulo-grande {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.carrito-subtitulo-tienda {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 15px 0;
+}
+
+/* ==========================================
+   Cabecera de la Tabla (Estática)
+   ========================================== */
+.carrito-tabla-cabecera {
+  display: grid;
+  grid-template-columns: 100px 2fr 1.2fr 1.2fr 80px;
+  gap: 15px;
+  padding: 12px 20px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #475569;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+}
+
+.carrito-tabla-cabecera div:nth-child(1) { text-align: center; } 
+.carrito-tabla-cabecera div:nth-child(2) { text-align: left; }   
+.carrito-tabla-cabecera div:nth-child(3) { text-align: center; } 
+.carrito-tabla-cabecera div:nth-child(4) { text-align: center; } 
+.carrito-tabla-cabecera div:nth-child(5) { text-align: center; } 
+
+/* ==========================================
+   Listado ÚNICO con Scroll Interno Inteligente
+   ========================================== */
+.carrito-listado-cuerpo {
+  flex: 1; /* Absorbe dinámicamente todo el espacio intermedio */
+  overflow-y: auto; /* Activa el scroll SOLAMENTE para los productos de la lista */
+  padding-right: 5px; 
+  box-sizing: border-box;
+}
+
+/* Estilizado estético de la barra de scroll interna */
+.carrito-listado-cuerpo::-webkit-scrollbar {
+  width: 6px;
+}
+.carrito-listado-cuerpo::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+.carrito-fila-item {
+  display: grid;
+  grid-template-columns: 100px 2fr 1.2fr 1.2fr 80px;
+  gap: 15px;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
+}
+
+.carrito-col-foto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carrito-col-foto img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.carrito-col-detalle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.carrito-item-nombre-txt {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.carrito-item-precio-unitario {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.carrito-col-cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carrito-badge-multiplicador {
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.carrito-col-subtotal {
+  font-weight: 600;
+  color: #0f172a;
+  text-align: center;
+  font-size: 15px;
+}
+
+.carrito-col-eliminar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-eliminar:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* ==========================================
+   Resumen de Gastos (Fijo en la parte inferior)
+   ========================================== */
+.carrito-resumen-gastos {
+  margin-top: auto; /* Empuja el contenedor de totales al fondo de la tarjeta */
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border-top: 2px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: #ffffff;
+}
+
+.carrito-fila-total {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.carrito-fila-total span:first-child {
+  font-size: 15px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.carrito-monto-total {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.carrito-contenedor-botones {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.btn-seguir-comprando {
+  background-color: #ffffff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-seguir-comprando:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #1e293b;
+}
+
+.btn-proceder-pago {
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-proceder-pago:hover {
+  background-color: #0369a1;
+}
+
+/* Estado Vacío */
+.carrito-seccion-vacia {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.carrito-icono-vacio {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+/* ==========================================
+   Diseño Responsivo (Celulares)
+   ========================================== */
+@media (max-width: 768px) {
+  .carrito-pagina-container {
+    height: auto;
+    overflow: visible;
+    padding: 15px;
+  }
+
+  .carrito-tabla-cabecera {
+    display: none;
+  }
+  
+  .carrito-fila-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 15px;
+  }
+  
+  .carrito-col-foto, .carrito-col-detalle, .carrito-col-cantidad, .carrito-col-eliminar {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .carrito-col-subtotal {
+    text-align: center;
+  }
+  
+  .carrito-contenedor-botones {
+    flex-direction: column-reverse;
+  }
+  
+  .btn-seguir-comprando, .btn-proceder-pago {
+    width: 100%;
+  }
+}

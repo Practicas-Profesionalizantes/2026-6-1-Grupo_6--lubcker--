@@ -1,0 +1,244 @@
+:root {
+    --lubcker-azul: #102a43;
+    --lubcker-turquesa: #0ea5e9;
+    --lubcker-gris-fondo: #f8fafc;
+    --lubcker-gris-borde: #cbd5e1;
+    --lubcker-texto: #334155;
+    --exito: #10b981;
+    --error: #ef4444;
+  }
+  
+  /* Contenedor principal ajustado para equilibrar los espacios superior e inferior */
+  .registro-contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Permite controlar el balance con márgenes */
+    min-height: calc(100vh - 70px); /* Resta la altura del Navbar de Lubcker */
+    background-color: var(--lubcker-gris-fondo);
+    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+  }
+  
+  /* Tarjeta optimizada, compacta y perfectamente centrada visualmente */
+  .registro-tarjeta {
+    background: #ffffff;
+    padding: 24px 32px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    border-top: 5px solid var(--lubcker-turquesa);
+    box-sizing: border-box;
+    
+    /* Logran el equilibrio de aire arriba y abajo en la pantalla */
+    margin-top: auto; 
+    margin-bottom: auto;
+    transform: translateY(-25px); /* Desfase hacia arriba para compensar el Navbar */
+  }
+  
+  .registro-tarjeta h2 {
+    color: var(--lubcker-azul);
+    font-size: 22px;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+  }
+  
+  .registro-subtitulo {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0 0 18px 0;
+  }
+  
+  /* Espaciado del formulario compacto */
+  .registro-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Inputs minimalistas */
+  .grupo-input input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--lubcker-gris-borde);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--lubcker-texto);
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+  
+  .grupo-input input:focus {
+    outline: none;
+    border-color: var(--lubcker-turquesa);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+  }
+  
+  /* Indicadores interactivos de contraseñas */
+  .registro-requisitos {
+    text-align: left;
+    font-size: 12px;
+    margin: 2px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .registro-requisitos p {
+    margin: 0;
+  }
+  
+  .registro-requisitos .pendiente {
+    color: #94a3b8;
+  }
+  
+  .registro-requisitos .cumplido {
+    color: var(--exito);
+    font-weight: 500;
+  }
+  
+  .registro-requisitos .error-coincidencia {
+    color: var(--error);
+    font-weight: 500;
+  }
+  
+  .registro-alerta-error {
+    background-color: #fef2f2;
+    color: var(--error);
+    border: 1px solid #fca5a5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  
+  /* Botón de acción principal */
+  .btn-registro-primario {
+    background-color: var(--lubcker-azul);
+    color: #ffffff;
+    padding: 11px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 4px;
+  }
+  
+  .btn-registro-primario:hover:not(:disabled) {
+    background-color: #1e4e7a;
+  }
+  
+  .btn-registro-primario:disabled {
+    background-color: #cbd5e1;
+    color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
+  
+  /* Enlace inferior */
+  .registro-pie {
+    margin: 16px 0 0 0;
+    font-size: 13px;
+    color: #64748b;
+  }
+  
+  .link-lubcker {
+    color: var(--lubcker-turquesa);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .link-lubcker:hover {
+    text-decoration: underline;
+  }
+  
+/* ---- Registro en dos pasos ---- */
+.grupo-input select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--lubcker-gris-borde);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--lubcker-texto);
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.grupo-input select:focus {
+  outline: none;
+  border-color: var(--lubcker-turquesa);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.grupo-input select:invalid {
+  color: #94a3b8; /* placeholder ("Rubro del negocio") en gris */
+}
+
+.registro-pasos {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.registro-pasos span {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #e2e8f0;
+}
+
+.registro-pasos span.activo {
+  background: var(--lubcker-azul);
+}
+
+.registro-seccion {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  text-align: left;
+}
+
+.registro-fila {
+  display: flex;
+  gap: 10px;
+}
+
+.registro-fila .grupo-input {
+  flex: 1;
+}
+
+.registro-fila .registro-altura {
+  flex: 0 0 110px;
+}
+
+.registro-botones {
+  display: flex;
+  gap: 10px;
+}
+
+.registro-botones .btn-registro-primario {
+  flex: 1;
+}
+
+.btn-registro-secundario {
+  padding: 11px 18px;
+  margin-top: 4px;
+  border: 1px solid var(--lubcker-gris-borde);
+  border-radius: 6px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-registro-secundario:hover {
+  background: #f1f5f9;
+}

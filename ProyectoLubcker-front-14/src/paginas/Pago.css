@@ -1,0 +1,282 @@
+/* Contenedor General de la Página */
+.pago-pagina-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #333333;
+}
+
+/* Diseño en 2 Columnas (Formulario izquierda, Resumen derecha) */
+.pago-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Tarjetas independientes */
+.pago-formulario-tarjeta, 
+.pago-resumen-tarjeta {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef0f2;
+}
+
+/* Títulos principales */
+.pago-titulo {
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #111111;
+    border-bottom: 2px solid #f1f3f5;
+    padding-bottom: 12px;
+}
+
+/* Subtítulos (Datos de Envío, Método de Pago, Resumen) */
+.pago-formulario-tarjeta h3,
+.pago-resumen-tarjeta h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6c757d;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* Organización automática del formulario sin tocar el HTML */
+.pago-formulario-tarjeta form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para todos los inputs de texto/email */
+.pago-formulario-tarjeta input[type="text"],
+.pago-formulario-tarjeta input[type="email"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.pago-formulario-tarjeta input:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* Opciones de Método de Pago */
+.pago-metodos-opciones {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.pago-metodos-opciones label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: background-color 0.2s;
+}
+
+.pago-metodos-opciones label:hover {
+    background-color: #f1f3f5;
+}
+
+/* Inputs de Tarjeta */
+.pago-datos-tarjeta {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Fila para Expiración y CVV */
+.pago-tarjeta-exp-cvv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Lista de Productos del Resumen */
+.pago-productos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pago-item-resumen {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #495057;
+    border-bottom: 1px dashed #e9ecef;
+    padding-bottom: 8px;
+}
+
+/* Caja del Total Final */
+.pago-total-final {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px solid #dee2e6;
+}
+
+.pago-total-final span {
+    font-size: 16px;
+    color: #212529;
+}
+
+.pago-total-final strong {
+    font-size: 24px;
+    color: #28a745;
+}
+
+/* Botón de Confirmación */
+.btn-confirmar-pago {
+    width: 100%;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.btn-confirmar-pago:hover {
+    background-color: #0056b3;
+}
+
+.btn-confirmar-pago:active {
+    transform: scale(0.98);
+}
+
+/* Estado Vacío */
+.pago-contenedor-vacio {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.btn-volver {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+    background-color: #5a6268;
+}
+
+/* Animación simple */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivo para Celulares */
+@media (max-width: 820px) {
+    .pago-layout {
+        grid-template-columns: 1fr;
+    }
+    .pago-metodos-opciones {
+        flex-direction: column;
+    }
+}
+
+/* ---------- Agregados del checkout real ---------- */
+
+/* Los métodos de pago ahora vienen de la base: pueden ser más de dos */
+.pago-metodos-opciones {
+    flex-wrap: wrap;
+}
+
+/* Mensaje de error del formulario */
+.pago-error {
+    margin: 0 0 15px 0;
+    padding: 12px 14px;
+    border: 1px solid #f5c2c7;
+    border-radius: 8px;
+    background-color: #f8d7da;
+    color: #842029;
+    font-size: 14px;
+}
+
+/* Botón deshabilitado mientras se procesa el pedido */
+.btn-confirmar-pago:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Pantalla de confirmación del pedido */
+.pago-confirmacion {
+    max-width: 640px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef0f2;
+}
+
+.pago-confirmacion h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6c757d;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.pago-confirmacion-datos p,
+.pago-datos-bancarios p {
+    margin: 6px 0;
+    font-size: 15px;
+    color: #495057;
+}
+
+.pago-datos-bancarios {
+    margin-top: 25px;
+    padding: 16px 18px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.pago-datos-bancarios h3 {
+    margin-top: 0;
+}
+
+.pago-botones-confirmacion {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}

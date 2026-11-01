@@ -1,0 +1,226 @@
+/* --- RESÉTEO Y ESTILOS GLOBALES --- */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Fondo gris claro */
+  width: 100%;
+  height: 100%;
+}
+
+/* --- CONTENEDOR PRINCIPAL DE LA APP --- */
+.app-container {
+  display: flex;
+  flex-direction: column; /* Apila Navbar, Main y Footer verticalmente */
+  min-height: 100vh; /* Asegura que el footer se quede abajo */
+}
+
+/* --- ESTILOS DEL HEADER / NAVBAR --- */
+header {
+  background-color: #fff; /* Asegura que el nav sea opaco */
+  z-index: 1000; /* Mantiene el nav siempre encima de otros elementos si hay overlap */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave para separar */
+}
+
+/* --- CONTENIDO PRINCIPAL --- */
+.main-content {
+  flex: 1; /* Toma todo el espacio disponible */
+  
+  /* Márgenes internos generales */
+  
+  padding: 20px; 
+  
+  /* CRUCIAL PARA LA SOBREPOSICIÓN: PUSH DOWN */
+  margin-top: 20px; /* Dale espacio para separarse del Navbar static */
+  
+  /* Centrar el contenido y limitar su ancho */
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box; /* Importante para cálculo correcto de padding */
+}
+
+/* Agrega esto a tu App.css */
+.main-content {
+  /* Empuja todo el contenido hacia abajo. 
+     Ajusta los 80px dependiendo de qué tan alta sea tu barra de navegación */
+  padding-top: 80px; 
+}
+
+/* --- SECCIONES INDIVIDUALES (Carruseles y Catálogo) --- */
+.seccion-carrusel, .seccion-carrusel-secundario, .seccion-catalogo {
+  margin-bottom: 40px; /* Separa las secciones verticalmente */
+  width: 100%;
+  display: flex; /* Asegura que los componentes se estiren correctamente */
+  flex-direction: column;
+  align-items: center; /* Centra el contenido internamente */
+}
+
+/* Asegura que los componentes internos como Carrusel o Productos ocupen el ancho de la sección */
+.seccion-carrusel > *, .seccion-carrusel-secundario > *, .seccion-catalogo > * {
+    width: 100% !important;
+}
+
+/* --- TÍTULOS --- */
+.titulo-principal {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Agrega o modifica esto en tu App.css */
+.titulo-seccion {
+  text-align: center; /* Esto es lo que los centra */
+  font-size: 1.8rem;
+  color: #333;
+  margin-top: 30px; /* Da un poco de aire por arriba */
+  margin-bottom: 20px; /* Separa el título del carrusel */
+  font-weight: bold;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* --- FOOTER --- */
+footer {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  margin-top: auto; /* Asegura que el footer se quede siempre abajo */
+}
+
+.footer-contenido p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+/* Aviso flotante (reemplaza a los alert()) */
+.aviso-flotante {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  max-width: calc(100vw - 32px);
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  background: #27ae60;
+}
+
+.aviso-flotante.aviso-error {
+  background: #dc2626;
+}
+
+/* Etiquetas de estado (pago y envío) */
+.estado-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.estado-pendiente { background: #fef3c7; color: #92400e; }
+.estado-info { background: #dbeafe; color: #1e40af; }
+.estado-ok { background: #dcfce7; color: #166534; }
+.estado-error { background: #fee2e2; color: #991b1b; }
+
+/* Estrellas de valoración */
+.estrellas {
+  display: inline-flex;
+  gap: 2px;
+  line-height: 1;
+}
+
+.estrella {
+  color: #cbd5e0;
+}
+
+.estrella.llena {
+  color: #f59e0b;
+}
+
+.estrellas-editables .estrella {
+  background: none;
+  border: none;
+  padding: 0 2px;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.estrellas-editables .estrella:hover,
+.estrellas-editables .estrella:focus-visible {
+  transform: scale(1.15);
+}
+
+/* Etiquetas de stock */
+.stock-badge {
+  display: inline-block;
+  align-self: flex-start; /* no estirarse dentro de columnas flex */
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stock-agotado { background: #fee2e2; color: #991b1b; }
+.stock-pocas { background: #fef3c7; color: #92400e; }
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Celular: menos margen lateral para aprovechar la pantalla */
+@media (max-width: 480px) {
+  .main-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Bienvenida de la página principal (arriba del carrusel) */
+.bienvenida {
+  text-align: center;
+  max-width: 900px;
+  margin: 10px auto 28px;
+  padding: 0 10px;
+}
+
+.bienvenida-titulo {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+  line-height: 1.15;
+  color: #1a202c;
+}
+
+.bienvenida-subtitulo {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+@media (max-width: 480px) {
+  .bienvenida {
+    margin-bottom: 20px;
+  }
+
+  .bienvenida-titulo {
+    font-size: 1.8rem;
+  }
+
+  .bienvenida-subtitulo {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,9 @@
+# Lo que NO entra a la imagen de Docker
+target/
+.git/
+HELP.md
+*.log
+
+# Claves y configuracion local: en produccion todo entra por variables de entorno
+secrets.properties
+local.properties

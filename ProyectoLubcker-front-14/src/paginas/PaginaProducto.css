@@ -1,0 +1,242 @@
+.pagina-producto-contenedor {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.btn-volver-catalogo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 30px;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+
+.btn-volver-catalogo:hover {
+  text-decoration: underline;
+}
+
+.producto-detalle-grid {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 60px; /* Espacio antes de los relacionados */
+}
+
+.producto-wrapper-imagen {
+  flex: 1;
+  min-width: min(300px, 100%); /* en celular no puede ser más ancho que la pantalla */
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.producto-imagen-principal {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.producto-bloque-info {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.producto-categoria-etiqueta {
+  text-transform: uppercase;
+  color: #888;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.producto-nombre-titulo {
+  font-size: 32px;
+  margin: 10px 0 20px 0;
+  color: #222;
+}
+
+.producto-precio-destacado {
+  font-size: 28px;
+  font-weight: bold;
+  color: #111111;
+  margin: 0 0 20px 0;
+}
+
+.producto-texto-descripcion {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.btn-comprar-carrito {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-comprar-carrito:hover {
+  background-color: #555;
+}
+
+.error-producto-no-existe {
+  padding: 8px 0;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.btn-error-regresar {
+  margin-top: 20px;
+}
+
+/* --- ESTILOS DE PRODUCTOS RELACIONADOS --- */
+.seccion-relacionados {
+  border-top: 1px solid #eaeaea;
+  padding-top: 40px;
+  margin-top: 40px;
+}
+
+.titulo-relacionados {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.productos-relacionados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Stock, descontinuado y ficha técnica */
+.producto-descontinuado {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.producto-ficha {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0 0 20px;
+  font-size: 14px;
+}
+
+.producto-ficha dt {
+  font-weight: 600;
+  color: #475569;
+}
+
+.producto-ficha dd {
+  margin: 0;
+}
+
+.producto-acciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-favorito-detalle {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.btn-favorito-detalle:hover {
+  background: #f8fafc;
+}
+
+/* Medidas de venta (kg, litro...) */
+.producto-precio-por-medida {
+  font-size: 16px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.producto-precio-base {
+  margin: -14px 0 16px 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.producto-medidas {
+  margin: 18px 0;
+}
+
+.producto-medidas-titulo {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #334155;
+}
+
+.producto-medidas-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.producto-medida-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 96px;
+  padding: 10px 14px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1e293b;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.producto-medida-btn span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.producto-medida-btn:hover:not(:disabled) {
+  border-color: #28a745;
+}
+
+.producto-medida-btn.activa {
+  border-color: #28a745;
+  background: #f0fdf4;
+}
+
+.producto-medida-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

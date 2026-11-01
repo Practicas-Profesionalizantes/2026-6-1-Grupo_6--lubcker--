@@ -1,0 +1,185 @@
+/* Unifica todo el fondo de la pantalla para evitar bloques e irregularidades */
+html, body {
+  background-color: #ffffff; 
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor adaptativo inmóvil ante la ruedita del ratón */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 92px); 
+  background-color: #ffffff; /* Ajustado al blanco total continuo del fondo de tu página */
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  padding: 40px 20px;
+}
+
+/* Envoltura limpia fija e inmóvil */
+.login-content-wrapper {
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+/* Título minimalista */
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+/* Subtítulo integrado */
+.login-subtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 0 0 36px 0;
+  text-align: center;
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Grupos de campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444444;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Contenedor del ojo */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Inputs de texto limpios */
+.login-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #111111;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.login-input.password-field {
+  padding-right: 46px;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #0066cc; 
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+/* Botón del ojito */
+.password-toggle-btn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #777777;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  color: #0066cc; 
+}
+
+.eye-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Enlace de recuperación "¿Olvidaste tu contraseña?" */
+.login-forgot-wrapper {
+  text-align: right;
+  margin-top: 4px;
+}
+
+.login-link {
+  font-size: 13px;
+  color: #666666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+/* Botón enviar Lubcker */
+.login-btn-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0066cc; 
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-btn-submit:hover {
+  background-color: #0052a3;
+}
+
+.login-btn-submit:active {
+  transform: scale(0.99);
+}
+
+/* Bloque inferior de registro "¿Aún no tienes cuenta?" */
+.login-footer-links {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 14px;
+  color: #444444;
+  border-top: 1px solid #edf2f7;
+  padding-top: 20px;
+}
+
+.login-footer-links p {
+  margin: 0;
+}
+
+.login-link-highlight {
+  color: #0066cc;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link-highlight:hover {
+  text-decoration: underline;
+}

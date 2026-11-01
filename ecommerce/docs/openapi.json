@@ -1,0 +1,4996 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API de Lubcker",
+    "description": "API REST de la tienda online Lubcker (productos de higiene y seguridad para talleres).\n\n**Autenticación:** las rutas marcadas como *Sesión* o *Admin* piden el token JWT que devuelve `POST /api/auth/login`. Se envía en el encabezado `Authorization: Bearer <token>`. El token vence a las 8 horas.\n\n**Acceso:** cada operación indica en su descripción si es *Público*, requiere *Sesión* (cliente o admin) o es solo para *Admin*. Lo que no está listado explícitamente en la configuración de seguridad queda como solo Admin.\n\n**Errores:** los mensajes de error vienen como `{\"mensaje\": \"...\"}`.",
+    "contact": {
+      "name": "Equipo Lubcker"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "tokenJwt": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reseñas",
+      "description": "Opiniones de clientes que compraron el producto (una por cliente y producto)."
+    },
+    {
+      "name": "Insumos (admin)",
+      "description": "Materia prima usada para fabricar los productos, con su costo por unidad."
+    },
+    {
+      "name": "Carrusel",
+      "description": "Banners de la página de inicio. La lectura es pública; la gestión es del admin."
+    },
+    {
+      "name": "Envíos",
+      "description": "Seguimiento y cambio de estado de los envíos. Cancelar un envío devuelve el stock."
+    },
+    {
+      "name": "Categorías",
+      "description": "Categorías de productos."
+    },
+    {
+      "name": "Direcciones",
+      "description": "Direcciones de envío de los clientes."
+    },
+    {
+      "name": "Reseñas de Lubcker",
+      "description": "Opiniones generales sobre la tienda (una por cliente)."
+    },
+    {
+      "name": "Fichas técnicas",
+      "description": "Descripción, modelo y presentación de cada producto."
+    },
+    {
+      "name": "Favoritos",
+      "description": "Productos favoritos de cada cliente."
+    },
+    {
+      "name": "Detalles de orden",
+      "description": "Líneas de cada pedido (producto, cantidad, medida y precio)."
+    },
+    {
+      "name": "Asistente Lubcki",
+      "description": "Chat con el asistente virtual (IA). Con sesión puede informar el estado de los pedidos propios."
+    },
+    {
+      "name": "Mercado Pago",
+      "description": "Verificación de pagos, nuevos links de pago y aviso (webhook) de Mercado Pago."
+    },
+    {
+      "name": "Productos",
+      "description": "Catálogo de productos con unidad de medida, presentaciones y stock."
+    },
+    {
+      "name": "Negocios",
+      "description": "Datos del negocio de cada cliente y lista de rubros."
+    },
+    {
+      "name": "Compra",
+      "description": "Confirmación de la compra: crea orden, detalles, pago y envío en una sola transacción."
+    },
+    {
+      "name": "Usuarios",
+      "description": "Cuentas de usuario y perfil."
+    },
+    {
+      "name": "Clientes",
+      "description": "Datos personales de los clientes."
+    },
+    {
+      "name": "Métodos de pago",
+      "description": "Medios de pago disponibles."
+    },
+    {
+      "name": "Usuarios (admin)",
+      "description": "Gestión de cuentas por el administrador: listar, cambiar contraseña, activar/desactivar y eliminar."
+    },
+    {
+      "name": "Órdenes",
+      "description": "Pedidos de los clientes."
+    },
+    {
+      "name": "Archivos",
+      "description": "Subida de imágenes (productos, perfil y banners)."
+    },
+    {
+      "name": "Empresas de logística",
+      "description": "Empresas que realizan los envíos."
+    },
+    {
+      "name": "Pagos",
+      "description": "Pagos de los pedidos y su estado."
+    },
+    {
+      "name": "Materia prima (admin)",
+      "description": "Receta de cada producto y cálculo de costo de fabricación, ganancia y margen."
+    },
+    {
+      "name": "Autenticación",
+      "description": "Inicio de sesión (token JWT) y registro de clientes con los datos de su negocio."
+    }
+  ],
+  "paths": {
+    "/api/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Obtener un usuario",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "obtener",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Editar un usuario (perfil y datos del negocio)",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "actualizar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas/{id}": {
+      "put": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Editar una reseña propia",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "actualizar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResenasRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Eliminar una reseña propia",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "eliminar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/resenas-generales/{id}": {
+      "put": {
+        "tags": [
+          "Reseñas de Lubcker"
+        ],
+        "summary": "Editar la opinión propia sobre Lubcker",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "actualizar_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResenaGeneralRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reseñas de Lubcker"
+        ],
+        "summary": "Eliminar la opinión propia sobre Lubcker",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "eliminar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/productos/{id}": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Obtener un producto",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "obtener_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Editar un producto",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Eliminar un producto (no si tiene ventas)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/productos/{id}/activo": {
+      "put": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Activar o desactivar (descontinuar) un producto",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "cambiarActivo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pagos/{id}/confirmar": {
+      "put": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Confirmar un pago manualmente",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "confirmar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/negocios/mio": {
+      "get": {
+        "tags": [
+          "Negocios"
+        ],
+        "summary": "Obtener el negocio del usuario con sesión",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "mio",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/NegocioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Negocios"
+        ],
+        "summary": "Editar el negocio del usuario con sesión",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "guardar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NegocioDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metodos-pago/{id}": {
+      "get": {
+        "tags": [
+          "Métodos de pago"
+        ],
+        "summary": "Obtener un método de pago",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "obtener_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetodoPagoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Métodos de pago"
+        ],
+        "summary": "Editar un método de pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetodoPagoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetodoPagoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Métodos de pago"
+        ],
+        "summary": "Eliminar un método de pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/fichas-tecnicas/{id}": {
+      "get": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Obtener una ficha técnica",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "obtener_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaTecnicaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Editar una ficha técnica",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FichaTecnicaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaTecnicaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Eliminar una ficha técnica",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/fichas-tecnicas/producto/{idProducto}": {
+      "get": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Obtener la ficha técnica de un producto",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "obtenerPorProducto",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaTecnicaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Crear o reemplazar la ficha técnica de un producto",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "guardarPorProducto",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FichaTecnicaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaTecnicaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/favoritos/{idProducto}": {
+      "put": {
+        "tags": [
+          "Favoritos"
+        ],
+        "summary": "Agregar un producto a favoritos",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "agregar",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Favoritos"
+        ],
+        "summary": "Quitar un producto de favoritos",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "quitar",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/envios/{id}/estado": {
+      "put": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Cambiar el estado del envío (el cuerpo es el texto del estado; un pedido cancelado no se reactiva)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizarEstado",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "Pendiente",
+                  "En preparación",
+                  "En camino",
+                  "Entregado",
+                  "Cancelado"
+                ],
+                "example": "En camino"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/envios/{id}/entrega": {
+      "put": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Definir la entrega: fecha estimada, franja horaria y mensaje para el cliente",
+        "description": "Acceso: **Solo Admin**. La fecha no puede ser anterior a hoy (salvo que ya fuera esa) y un pedido cancelado no se puede programar.",
+        "operationId": "programarEntrega",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntregaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/empresas-logistica/{id}": {
+      "get": {
+        "tags": [
+          "Empresas de logística"
+        ],
+        "summary": "Obtener una empresa de logística",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmpresaLogisticaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Empresas de logística"
+        ],
+        "summary": "Editar una empresa de logística",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpresaLogisticaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmpresaLogisticaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Empresas de logística"
+        ],
+        "summary": "Eliminar una empresa de logística",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/direcciones/{id}": {
+      "get": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Obtener una dirección",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "obtener_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DireccionDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Editar una dirección",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "actualizar_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DireccionRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DireccionDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Eliminar una dirección",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "eliminar_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/detalles-orden/{id}": {
+      "get": {
+        "tags": [
+          "Detalles de orden"
+        ],
+        "summary": "Obtener un detalle de orden",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleOrdenDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Detalles de orden"
+        ],
+        "summary": "Editar un detalle de orden",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_8",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleOrdenRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleOrdenDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Detalles de orden"
+        ],
+        "summary": "Eliminar un detalle de orden",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Obtener un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "obtener_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Editar un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "actualizar_9",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Eliminar un cliente",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_8",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/categorias/{id}": {
+      "get": {
+        "tags": [
+          "Categorías"
+        ],
+        "summary": "Obtener una categoría",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "obtener_8",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoriaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categorías"
+        ],
+        "summary": "Editar una categoría",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoriaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categorías"
+        ],
+        "summary": "Eliminar una categoría (no si tiene productos)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_9",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/usuarios/{id}/contrasena": {
+      "put": {
+        "tags": [
+          "Usuarios (admin)"
+        ],
+        "summary": "Cambiar la contraseña de un usuario sin pedir la actual",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "cambiarContrasena",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambioContrasenaDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/usuarios/{id}/activo": {
+      "put": {
+        "tags": [
+          "Usuarios (admin)"
+        ],
+        "summary": "Activar o desactivar una cuenta",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "cambiarActivo_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/materia-prima/producto/{idProducto}": {
+      "get": {
+        "tags": [
+          "Materia prima (admin)"
+        ],
+        "summary": "Obtener la receta de un producto con su costo de fabricación",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_9",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecetaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Materia prima (admin)"
+        ],
+        "summary": "Reemplazar la receta completa de un producto",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "guardar_1",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecetaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/insumos/{id}": {
+      "put": {
+        "tags": [
+          "Insumos (admin)"
+        ],
+        "summary": "Editar un insumo (si está en uso no se puede cambiar su unidad)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsumoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Insumos (admin)"
+        ],
+        "summary": "Eliminar un insumo (no si está en uso)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/banners/{id}": {
+      "put": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Editar un banner",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "actualizar_12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BannerRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Eliminar un banner",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/banners/orden": {
+      "put": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Reordenar los banners (lista de ids en el orden deseado)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "reordenar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usuarios": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Listar usuarios",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuarioDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Crear un usuario",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas": {
+      "get": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Listar todas las reseñas",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenasDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Crear una reseña (solo de productos comprados, una por producto)",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "crear_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResenasRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas-generales": {
+      "get": {
+        "tags": [
+          "Reseñas de Lubcker"
+        ],
+        "summary": "Listar las opiniones sobre Lubcker",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "listar_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenaGeneralDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reseñas de Lubcker"
+        ],
+        "summary": "Crear la opinión sobre Lubcker (una por cliente)",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "crear_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResenaGeneralRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/productos": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Listar productos (los activos; con incluirInactivos=true también los descontinuados)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_3",
+        "parameters": [
+          {
+            "name": "incluirInactivos",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Crear un producto",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pagos": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Listar todos los pagos",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_4",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PagoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Crear un pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ordenes": {
+      "get": {
+        "tags": [
+          "Órdenes"
+        ],
+        "summary": "Listar todos los pedidos",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_5",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrdenDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Órdenes"
+        ],
+        "summary": "Crear un pedido",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdenRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdenDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metodos-pago": {
+      "get": {
+        "tags": [
+          "Métodos de pago"
+        ],
+        "summary": "Listar métodos de pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_6",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetodoPagoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Métodos de pago"
+        ],
+        "summary": "Crear un método de pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_6",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetodoPagoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetodoPagoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mercadopago/webhook": {
+      "post": {
+        "tags": [
+          "Mercado Pago"
+        ],
+        "summary": "Aviso de Mercado Pago (verifica la firma y consulta el pago real)",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "webhook",
+        "parameters": [
+          {
+            "name": "params",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/mercadopago/orden/{idOrden}/sincronizar": {
+      "post": {
+        "tags": [
+          "Mercado Pago"
+        ],
+        "summary": "Consultar a Mercado Pago si un pedido pendiente ya fue pagado",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "sincronizar",
+        "parameters": [
+          {
+            "name": "idOrden",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mercadopago/orden/{idOrden}/link": {
+      "post": {
+        "tags": [
+          "Mercado Pago"
+        ],
+        "summary": "Generar un link nuevo para pagar un pedido pendiente (\"Pagar ahora\")",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "link",
+        "parameters": [
+          {
+            "name": "idOrden",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mercadopago/confirmar": {
+      "post": {
+        "tags": [
+          "Mercado Pago"
+        ],
+        "summary": "Verificar un pago contra la API de Mercado Pago al volver de pagar",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "confirmar_1",
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fichas-tecnicas": {
+      "get": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Listar fichas técnicas",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FichaTecnicaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Fichas técnicas"
+        ],
+        "summary": "Crear una ficha técnica",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_7",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FichaTecnicaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaTecnicaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/favoritos/sincronizar": {
+      "post": {
+        "tags": [
+          "Favoritos"
+        ],
+        "summary": "Sincronizar los favoritos guardados en el navegador con los del servidor",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "sincronizar_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/envios": {
+      "get": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Listar todos los envíos",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_8",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnvioDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Crear un envío",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_8",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnvioRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvioDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/empresas-logistica": {
+      "get": {
+        "tags": [
+          "Empresas de logística"
+        ],
+        "summary": "Listar empresas de logística",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_9",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmpresaLogisticaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Empresas de logística"
+        ],
+        "summary": "Crear una empresa de logística",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_9",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpresaLogisticaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmpresaLogisticaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/direcciones": {
+      "get": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Listar todas las direcciones",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_10",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DireccionDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Crear una dirección",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_10",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DireccionRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DireccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/detalles-orden": {
+      "get": {
+        "tags": [
+          "Detalles de orden"
+        ],
+        "summary": "Listar detalles de orden",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_11",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetalleOrdenDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Detalles de orden"
+        ],
+        "summary": "Crear un detalle de orden",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_11",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleOrdenRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleOrdenDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Listar clientes",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_12",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClienteDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Crear un cliente",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_12",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/checkout": {
+      "post": {
+        "tags": [
+          "Compra"
+        ],
+        "summary": "Confirmar la compra y obtener el link de pago de Mercado Pago",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "procesar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat": {
+      "post": {
+        "tags": [
+          "Asistente Lubcki"
+        ],
+        "summary": "Enviar una pregunta al asistente Lubcki (máx. 500 caracteres por mensaje; 30 mensajes por hora por persona)",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "preguntar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categorias": {
+      "get": {
+        "tags": [
+          "Categorías"
+        ],
+        "summary": "Listar categorías",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_13",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoriaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categorías"
+        ],
+        "summary": "Crear una categoría",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_13",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoriaRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/registro": {
+      "post": {
+        "tags": [
+          "Autenticación"
+        ],
+        "summary": "Registrar un cliente junto con los datos de su negocio",
+        "description": "Acceso: **Público** (no requiere sesión). El rol siempre es CLIENTE; el rol ADMIN solo se asigna en la base.",
+        "operationId": "registro",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Cuenta creada (devuelve token y usuario)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o rubro inexistente"
+          },
+          "409": {
+            "description": "Ya existe una cuenta con ese correo"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Autenticación"
+        ],
+        "summary": "Iniciar sesión y obtener el token JWT (5 intentos fallidos bloquean la cuenta 15 minutos)",
+        "description": "Acceso: **Público** (no requiere sesión). Copiar el `token` de la respuesta y pegarlo en el botón Authorize.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sesión iniciada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Correo o contraseña incorrectos"
+          },
+          "403": {
+            "description": "La cuenta está desactivada"
+          },
+          "429": {
+            "description": "Demasiados intentos fallidos: cuenta bloqueada 15 minutos"
+          }
+        }
+      }
+    },
+    "/api/archivos": {
+      "post": {
+        "tags": [
+          "Archivos"
+        ],
+        "summary": "Subir una imagen (jpg, png, webp o gif, hasta 5 MB)",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "subir",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "archivo"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/insumos": {
+      "get": {
+        "tags": [
+          "Insumos (admin)"
+        ],
+        "summary": "Listar insumos",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_14",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InsumoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Insumos (admin)"
+        ],
+        "summary": "Crear un insumo (el costo por unidad es obligatorio)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_14",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsumoRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/banners": {
+      "get": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Listar todos los banners (activos e inactivos)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "todos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BannerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Crear un banner",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "crear_15",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BannerRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas/producto/{idProducto}": {
+      "get": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Listar las reseñas de un producto",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "listarPorProducto",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenasDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas/mias": {
+      "get": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Listar las reseñas del usuario con sesión",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "mias",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenasDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas/estado/{idProducto}": {
+      "get": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Saber si el usuario compró el producto y si ya lo reseñó",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "estado",
+        "parameters": [
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas/destacadas": {
+      "get": {
+        "tags": [
+          "Reseñas"
+        ],
+        "summary": "Listar las 6 reseñas más recientes de 4 o 5 estrellas",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "destacadas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenasDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resenas-generales/mia": {
+      "get": {
+        "tags": [
+          "Reseñas de Lubcker"
+        ],
+        "summary": "Obtener la opinión propia sobre Lubcker (404 si todavía no dejó una)",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "mia",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResenaGeneralDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/productos/categoria/{idCategoria}": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Listar los productos de una categoría",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "listarPorCategoria",
+        "parameters": [
+          {
+            "name": "idCategoria",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pagos/{id}": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Obtener un pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Eliminar un pago",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/pagos/orden/{idOrden}": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Obtener el pago de un pedido",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listarPorOrden",
+        "parameters": [
+          {
+            "name": "idOrden",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PagoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pagos/cliente/{idCliente}": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Listar los pagos de un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "listarPorCliente",
+        "parameters": [
+          {
+            "name": "idCliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PagoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ordenes/{id}": {
+      "get": {
+        "tags": [
+          "Órdenes"
+        ],
+        "summary": "Obtener un pedido",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdenDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Órdenes"
+        ],
+        "summary": "Eliminar un pedido con sus detalles, pagos y envío",
+        "description": "Acceso: **Solo Admin**. Si el pedido todavía no salió (envío Pendiente o En preparación), las unidades vuelven al stock.",
+        "operationId": "eliminar_13",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ordenes/cliente/{idCliente}": {
+      "get": {
+        "tags": [
+          "Órdenes"
+        ],
+        "summary": "Listar los pedidos de un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "listarPorCliente_1",
+        "parameters": [
+          {
+            "name": "idCliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrdenDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/negocios/rubros": {
+      "get": {
+        "tags": [
+          "Negocios"
+        ],
+        "summary": "Listar los rubros disponibles para registrarse",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "rubros",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/favoritos": {
+      "get": {
+        "tags": [
+          "Favoritos"
+        ],
+        "summary": "Listar los favoritos del usuario con sesión",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "listar_15",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/envios/{id}": {
+      "get": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Obtener un envío",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtener_12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Eliminar un envío",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_14",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/envios/orden/{idOrden}": {
+      "get": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Obtener el envío de un pedido",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "obtenerPorOrden",
+        "parameters": [
+          {
+            "name": "idOrden",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvioDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/envios/cliente/{idCliente}": {
+      "get": {
+        "tags": [
+          "Envíos"
+        ],
+        "summary": "Listar los envíos de un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "listarPorCliente_2",
+        "parameters": [
+          {
+            "name": "idCliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnvioDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/direcciones/cliente/{idCliente}": {
+      "get": {
+        "tags": [
+          "Direcciones"
+        ],
+        "summary": "Listar las direcciones de un cliente",
+        "description": "Acceso: **Sesión** (cliente o admin). Un cliente solo puede ver y modificar sus propios datos; el admin accede a todo.",
+        "operationId": "listarPorCliente_3",
+        "parameters": [
+          {
+            "name": "idCliente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DireccionDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/banners": {
+      "get": {
+        "tags": [
+          "Carrusel"
+        ],
+        "summary": "Listar los banners activos del carrusel, en orden",
+        "description": "Acceso: **Público** (no requiere sesión).",
+        "operationId": "publicos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BannerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/usuarios": {
+      "get": {
+        "tags": [
+          "Usuarios (admin)"
+        ],
+        "summary": "Listar todos los usuarios con negocio, direcciones, pedidos y total gastado",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "listar_16",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminUsuarioDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/materia-prima/resumen": {
+      "get": {
+        "tags": [
+          "Materia prima (admin)"
+        ],
+        "summary": "Costo, ganancia y margen por unidad de todos los productos con receta",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "resumen",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResumenCostoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/usuarios/{id}": {
+      "delete": {
+        "tags": [
+          "Usuarios (admin)"
+        ],
+        "summary": "Eliminar un usuario (solo si no tiene pedidos)",
+        "description": "Acceso: **Solo Admin**.",
+        "operationId": "eliminar_15",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UsuarioRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "contrasena": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          }
+        }
+      },
+      "ResenasRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valoracion": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1
+          },
+          "descripcion": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        }
+      },
+      "ResenaGeneralRequestDTO": {
+        "type": "object",
+        "properties": {
+          "valoracion": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1
+          },
+          "descripcion": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        }
+      },
+      "ProductoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "precio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCategoria": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imagen": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadMedida": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 0
+          },
+          "presentaciones": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nombre"
+        ]
+      },
+      "PagoDTO": {
+        "type": "object",
+        "properties": {
+          "idPago": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMetodoPago": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreMetodoPago": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "monto": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NegocioDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "rubro": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provincia": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "ciudad": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "calle": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "altura": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "calle",
+          "ciudad",
+          "nombre",
+          "provincia",
+          "rubro"
+        ]
+      },
+      "MetodoPagoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          }
+        }
+      },
+      "MetodoPagoDTO": {
+        "type": "object",
+        "properties": {
+          "idMetodo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          }
+        }
+      },
+      "FichaTecnicaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modelo": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "presentacion": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "descripcion": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        }
+      },
+      "FichaTecnicaDTO": {
+        "type": "object",
+        "properties": {
+          "idFicha": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modelo": {
+            "type": "string"
+          },
+          "presentacion": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          }
+        }
+      },
+      "EntregaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "fechaEntrega": {
+            "type": "string"
+          },
+          "franjaHoraria": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "notaCliente": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        }
+      },
+      "EmpresaLogisticaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "sucursal": {
+            "type": "string"
+          }
+        }
+      },
+      "EmpresaLogisticaDTO": {
+        "type": "object",
+        "properties": {
+          "idEmpresa": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "sucursal": {
+            "type": "string"
+          }
+        }
+      },
+      "DireccionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "provincia": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ciudad": {
+            "type": "string",
+            "minLength": 1
+          },
+          "calle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "altura": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "calle",
+          "ciudad",
+          "provincia"
+        ]
+      },
+      "DireccionDTO": {
+        "type": "object",
+        "properties": {
+          "idDireccion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "provincia": {
+            "type": "string"
+          },
+          "ciudad": {
+            "type": "string"
+          },
+          "calle": {
+            "type": "string"
+          },
+          "altura": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DetalleOrdenRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "precioUnitario": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DetalleOrdenDTO": {
+        "type": "object",
+        "properties": {
+          "idDetalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreProducto": {
+            "type": "string"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "precioUnitario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subtotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tamano": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadMedida": {
+            "type": "string"
+          }
+        }
+      },
+      "ClienteRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          }
+        }
+      },
+      "ClienteDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoriaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "nombre"
+        ]
+      },
+      "CambioContrasenaDTO": {
+        "type": "object",
+        "properties": {
+          "nueva": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 8,
+            "pattern": ".*\\d.*"
+          }
+        },
+        "required": [
+          "nueva"
+        ]
+      },
+      "RecetaItemRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "type": "number",
+            "maximum": 1000000,
+            "minimum": 0.0001
+          }
+        },
+        "required": [
+          "cantidad"
+        ]
+      },
+      "RecetaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecetaItemRequestDTO"
+            },
+            "maxItems": 50,
+            "minItems": 0
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "InsumoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "unidadMedida": {
+            "type": "string",
+            "minLength": 1
+          },
+          "costoUnitario": {
+            "type": "number",
+            "maximum": 100000000,
+            "minimum": 0.01
+          },
+          "proveedor": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "costoUnitario",
+          "nombre",
+          "unidadMedida"
+        ]
+      },
+      "BannerRequestDTO": {
+        "type": "object",
+        "properties": {
+          "imagen": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "titulo": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "enlace": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "imagen"
+        ]
+      },
+      "UsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "rol": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          }
+        }
+      },
+      "PagoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMetodoPago": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monto": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "OrdenRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "OrdenDTO": {
+        "type": "object",
+        "properties": {
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreCliente": {
+            "type": "string"
+          },
+          "telefonoCliente": {
+            "type": "string"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "detalles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetalleOrdenDTO"
+            }
+          }
+        }
+      },
+      "EnvioRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idDireccion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEmpresa": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "string"
+          }
+        }
+      },
+      "EnvioDTO": {
+        "type": "object",
+        "properties": {
+          "idEnvio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idDireccion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEmpresa": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreEmpresa": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "fechaEntrega": {
+            "type": "string"
+          },
+          "franjaHoraria": {
+            "type": "string"
+          },
+          "notaCliente": {
+            "type": "string"
+          }
+        }
+      },
+      "CheckoutRequestDTO": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMetodoPago": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "provincia": {
+            "type": "string"
+          },
+          "ciudad": {
+            "type": "string"
+          },
+          "calle": {
+            "type": "string"
+          },
+          "altura": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemCheckoutDTO"
+            }
+          }
+        }
+      },
+      "ItemCheckoutDTO": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tamano": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CheckoutResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idOrden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idPago": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreMetodoPago": {
+            "type": "string"
+          },
+          "pagoConfirmado": {
+            "type": "boolean"
+          },
+          "idEnvio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estadoEnvio": {
+            "type": "string"
+          },
+          "nombreEmpresa": {
+            "type": "string"
+          },
+          "direccionEnvio": {
+            "type": "string"
+          },
+          "detalles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetalleOrdenDTO"
+            }
+          },
+          "urlPago": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatRequestDTO": {
+        "type": "object",
+        "properties": {
+          "mensajes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MensajeChat"
+            },
+            "maxItems": 12,
+            "minItems": 0
+          }
+        },
+        "required": [
+          "mensajes"
+        ]
+      },
+      "MensajeChat": {
+        "type": "object",
+        "properties": {
+          "rol": {
+            "type": "string",
+            "pattern": "user|assistant"
+          },
+          "texto": {
+            "type": "string",
+            "maxLength": 3000,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "texto"
+        ]
+      },
+      "LoginResponseDTO": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/UsuarioDTO"
+          }
+        }
+      },
+      "RegistroRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "apellido": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "telefono": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[+0-9][0-9 ()-]{6,19}$"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "contrasena": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 8,
+            "pattern": ".*\\d.*"
+          },
+          "negocio": {
+            "$ref": "#/components/schemas/NegocioDTO"
+          }
+        },
+        "required": [
+          "apellido",
+          "contrasena",
+          "email",
+          "negocio",
+          "nombre",
+          "telefono"
+        ]
+      },
+      "LoginRequestDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "contrasena": {
+            "type": "string"
+          }
+        }
+      },
+      "ResenasDTO": {
+        "type": "object",
+        "properties": {
+          "idResenas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreCliente": {
+            "type": "string"
+          },
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreProducto": {
+            "type": "string"
+          },
+          "imagenProducto": {
+            "type": "string"
+          },
+          "valoracion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string"
+          }
+        }
+      },
+      "ResenaGeneralDTO": {
+        "type": "object",
+        "properties": {
+          "idResenaGeneral": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreCliente": {
+            "type": "string"
+          },
+          "valoracion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductoDTO": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "precio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCategoria": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreCategoria": {
+            "type": "string"
+          },
+          "imagen": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "presentaciones": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "CategoriaDTO": {
+        "type": "object",
+        "properties": {
+          "idCategoria": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          }
+        }
+      },
+      "BannerDTO": {
+        "type": "object",
+        "properties": {
+          "idBanner": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imagen": {
+            "type": "string"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "enlace": {
+            "type": "string"
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminUsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "rol": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "negocio": {
+            "$ref": "#/components/schemas/NegocioDTO"
+          },
+          "direcciones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DireccionDTO"
+            }
+          },
+          "cantidadPedidos": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalGastado": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResumenCostoDTO": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "precioVenta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costoFabricacion": {
+            "type": "number"
+          },
+          "ganancia": {
+            "type": "number"
+          },
+          "margenPorcentaje": {
+            "type": "number"
+          }
+        }
+      },
+      "RecetaDTO": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreProducto": {
+            "type": "string"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "precioVenta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecetaItemDTO"
+            }
+          },
+          "costoFabricacion": {
+            "type": "number"
+          },
+          "ganancia": {
+            "type": "number"
+          },
+          "margenPorcentaje": {
+            "type": "number"
+          }
+        }
+      },
+      "RecetaItemDTO": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreInsumo": {
+            "type": "string"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "costoUnitario": {
+            "type": "number"
+          },
+          "cantidad": {
+            "type": "number"
+          },
+          "costo": {
+            "type": "number"
+          }
+        }
+      },
+      "InsumoDTO": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "costoUnitario": {
+            "type": "number"
+          },
+          "proveedor": {
+            "type": "string"
+          },
+          "productosQueLoUsan": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "tokenJwt": {
+        "type": "http",
+        "description": "Token que devuelve POST /api/auth/login",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

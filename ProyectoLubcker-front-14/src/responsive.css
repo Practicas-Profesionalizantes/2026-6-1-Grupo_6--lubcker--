@@ -1,0 +1,66 @@
+/* Ajustes para pantallas chicas (tablet y celular).
+   Va en un archivo aparte, cargado al final desde index.js, para no tocar el CSS de cada pantalla.
+   Las pantallas que ya tenían su propio @media (Navbar, Carrito, Pago, catálogo y paneles de
+   administración) no se modifican acá. */
+
+/* ---------- Tablet y celular (hasta 768 px) ---------- */
+@media (max-width: 768px) {
+
+  /* Detalle de producto */
+  .pagina-producto-contenedor { padding: 20px 16px; }
+  .producto-detalle-grid { gap: 20px; }
+  .producto-wrapper-imagen { flex: 1 1 100%; padding: 12px; }
+  .producto-bloque-info { flex: 1 1 100%; min-width: 0; }
+  .producto-imagen-principal { max-height: 280px; }
+  .producto-nombre-titulo { font-size: 24px; margin: 8px 0 14px; }
+  .producto-precio-destacado { font-size: 22px; margin-bottom: 14px; }
+  .producto-acciones .btn-comprar-carrito { flex: 1; }
+  .productos-relacionados-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+
+  /* Reseñas */
+  .resenas-seccion { padding: 16px; }
+  .destacadas-seccion { margin: 24px 0; }
+
+  /* Historial: la tabla se desplaza hacia el costado en vez de achicarse */
+  .historial-contenedor { padding: 12px; }
+  .historial-tarjeta-principal { padding: 16px; }
+  .historial-titulo { font-size: 20px; }
+  .historial-input-filtro { width: 100%; box-sizing: border-box; }
+  .historial-tarjeta-principal table { min-width: 640px; }
+
+  /* Perfil */
+  .perfil-contenedor { padding: 16px 12px 40px; }
+  .perfil-tarjeta { padding: 16px; }
+  .perfil-foto-seccion { justify-content: center; text-align: center; }
+
+  /* Pedidos (administración) */
+  .pedidos-contenedor { padding: 0 8px; }
+  .pedidos-tarjeta { padding: 16px; }
+
+  /* Carrusel */
+  .carrusel-overlay { padding: 8px 0; }
+  .carrusel-name { font-size: 14px; }
+  .carrusel-btn { width: 34px; height: 34px; font-size: 18px; }
+
+  /* Tus Intereses (tarjetas horizontales) */
+  .producto-tarjeta-item.tarjeta-horizontal { height: auto; flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .texto-recortado { max-width: 160px; }
+  .bloque-derecho-horizontal { gap: 8px; }
+}
+
+/* ---------- Celular (hasta 480 px) ---------- */
+@media (max-width: 480px) {
+
+  /* Inicio de sesión y registro */
+  .login-container { padding: 24px 16px; }
+  .login-title { font-size: 24px; }
+  .registro-tarjeta { padding: 20px 16px; }
+  .registro-fila { flex-wrap: wrap; }
+  .registro-fila .grupo-input { flex: 1 1 140px; }
+  .registro-fila .registro-altura { flex: 0 0 110px; }
+
+  /* Otros */
+  .destacadas-grid { grid-template-columns: 1fr; }
+  .producto-nombre-titulo { font-size: 21px; }
+  .historial-tarjeta-principal { padding: 12px; }
+}
